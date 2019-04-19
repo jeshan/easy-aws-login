@@ -6,15 +6,13 @@
 
 import io
 import os
-import sys
-from shutil import rmtree
 
-from setuptools import find_packages, setup, Command
+from setuptools import find_packages, setup
 
 # Package meta-data.
-NAME = 'easy_aws_login'
+NAME = 'easy-aws-login'
 DESCRIPTION = 'The easiest way to log in to your AWS console.'
-URL = 'https://github.com/jeshan/easy_aws_login'
+URL = 'https://github.com/jeshan/easy-aws-login'
 EMAIL = 'j@jeshan.co'
 AUTHOR = 'Jeshan Babooa'
 REQUIRES_PYTHON = '>=3.6.0'
@@ -54,40 +52,6 @@ if not VERSION:
 else:
     about['__version__'] = VERSION
 
-
-class UploadCommand(Command):
-    """Support setup.py upload."""
-
-    description = 'Build and publish the package.'
-    user_options = []
-
-    @staticmethod
-    def status(s):
-        """Prints things in bold."""
-        print('\033[1m{0}\033[0m'.format(s))
-
-    def initialize_options(self):
-        pass
-
-    def finalize_options(self):
-        pass
-
-    def run(self):
-        try:
-            self.status('Removing previous builds…')
-            rmtree(os.path.join(here, 'dist'))
-        except OSError:
-            pass
-
-        self.status('Building Source and Wheel (universal) distribution…')
-        os.system('{0} setup.py sdist bdist_wheel --universal'.format(sys.executable))
-
-        self.status('Uploading the package to PyPI via Twine…')
-        os.system('twine upload dist/*')
-
-        sys.exit()
-
-
 # Where the magic happens:
 setup(
     name=NAME,
@@ -104,7 +68,7 @@ setup(
     install_requires=REQUIRED,
     extras_require=EXTRAS,
     include_package_data=True,
-    license='BSD',
+    license='BSD-2-Clause',
     classifiers=[
         # Trove classifiers
         # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
@@ -113,8 +77,4 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.6',
     ],
-    # $ setup.py publish support.
-    cmdclass={
-        'upload': UploadCommand,
-    },
 )
