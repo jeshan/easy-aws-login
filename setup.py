@@ -16,7 +16,7 @@ URL = 'https://github.com/jeshan/easy-aws-login'
 EMAIL = 'j@jeshan.co'
 AUTHOR = 'Jeshan Babooa'
 REQUIRES_PYTHON = '>=3.6.0'
-VERSION = '0.1'
+VERSION = os.environ.get('CODE_VERSION')
 
 # What packages are required for this module to be executed?
 REQUIRED = [
