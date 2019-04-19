@@ -13,7 +13,10 @@ def go(profile_name, duration):
     sts = session.client('sts')
     issuer = f'{profile_name}-easy-aws-login'
     try:
-        response = sts.get_federation_token(Name=f'{getuser()}-{issuer}', DurationSeconds=duration, Policy=json.dumps({
+        name = f'{getuser()}-{issuer}'
+        if len(name) > 32:
+            name = name[:32]
+        response = sts.get_federation_token(Name=name, DurationSeconds=duration, Policy=json.dumps({
             'Version': '2012-10-17',
             'Statement': [{
                 'Action': '*',
