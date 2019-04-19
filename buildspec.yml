@@ -6,12 +6,12 @@ env:
     TWINE_PASSWORD: /CodeBuild/pypi-password
     GITHUB_TOKEN: /CodeBuild/GITHUB_TOKEN
   variables:
-    CODE_VERSION: 0.1
+    CODE_VERSION: 0.2
 
 phases:
   build:
     commands:
       - pip install --upgrade setuptools wheel twine
       - mkdir -p tmp
-      - cp setup.py README.md release.sh tmp/
+      - cp -r setup.py README.md release.sh easy_aws_login tmp/
       - cd tmp && ./release.sh
