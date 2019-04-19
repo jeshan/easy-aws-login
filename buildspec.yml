@@ -13,5 +13,5 @@ phases:
     commands:
       - pip install --upgrade setuptools wheel twine
       - mkdir -p tmp
-      - cp -r setup.py README.md release.sh easy_aws_login tmp/
+      - cp -r LICENCE.txt setup.py README.md release.sh easy_aws_login tmp/
       - cd tmp && ./release.sh
