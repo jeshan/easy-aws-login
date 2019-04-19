@@ -1,0 +1,83 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Deployment pipeline for easy-aws-login'
+
+Parameters:
+  GithubRepo:
+    Type: String
+    Default: https://github.com/jeshan/easy-aws-login
+
+Resources:
+  Project:
+    Properties:
+      Artifacts:
+        Type: NO_ARTIFACTS
+      BadgeEnabled: true
+      Cache:
+        Type: NO_CACHE
+      Description: releases easy-aws-login
+      EncryptionKey: !Sub 'arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/aws/s3'
+      Environment:
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/python:3.6.5
+        PrivilegedMode: true
+        Type: LINUX_CONTAINER
+      Name: easy-aws-login-release
+      ServiceRole: !GetAtt 'CodeBuildServiceRole.Arn'
+      Source:
+        GitCloneDepth: 1
+        InsecureSsl: false
+        Location: !Ref GithubRepo
+        ReportBuildStatus: false
+        Type: GITHUB
+      TimeoutInMinutes: 15
+      Triggers:
+        Webhook: true
+        FilterGroups:
+          - - Type: EVENT
+              Pattern: PUSH
+    Type: AWS::CodeBuild::Project
+
+  CodeBuildServiceRole:
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: codebuild.amazonaws.com
+        Version: '2012-10-17'
+      ManagedPolicyArns: # if getting policy not attachable, deploy this in a second step
+        - !Ref 'LogManagedPolicy'
+        - !Ref 'SsmManagedPolicy'
+      Path: /service-role/
+    Type: AWS::IAM::Role
+
+  LogManagedPolicy:
+    Properties:
+      Description: Policy used in trust relationship with CodeBuild
+      Path: /service-role/
+      PolicyDocument:
+        Statement:
+          - Action:
+              - logs:CreateLogGroup
+              - logs:CreateLogStream
+              - logs:PutLogEvents
+            Effect: Allow
+            Resource:
+              - !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/easy-aws-login-release'
+              - !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/easy-aws-login-release:*'
+        Version: '2012-10-17'
+    Type: AWS::IAM::ManagedPolicy
+
+  SsmManagedPolicy:
+    Properties:
+      Description: Policy used in trust relationship with CodeBuild
+      Path: /service-role/
+      PolicyDocument:
+        Statement:
+          - Action:
+              - ssm:GetParameters
+            Effect: Allow
+            Resource: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/CodeBuild/*'
+        Version: '2012-10-17'
+    Type: AWS::IAM::ManagedPolicy
