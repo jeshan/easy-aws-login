@@ -5,7 +5,7 @@ Leverages the existing `aws-cli` profiles that you've already set up.
 
 Also clearly shows which profile (hence account) the user is in.
 
-![See demo gif on github](https://raw.githubusercontent.com/jeshan/botostubs/master/screenshot1.png)
+![example](screenshot1.png)
 
 
 to login with your default credentials, type:
