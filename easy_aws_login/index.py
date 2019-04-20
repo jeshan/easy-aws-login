@@ -46,7 +46,7 @@ def go(profile_name, duration):
 
 def main():
     profile_name = 'default' if len(sys.argv) < 2 else sys.argv[1]
-    duration = 3600 if len(sys.argv) < 3 else int(sys.argv[2])
+    duration = 3600 * 12 if len(sys.argv) < 3 else int(sys.argv[2])
     if duration < 900:
         raise Exception('Duration must be at least 900 seconds')
     go(profile_name, duration)
