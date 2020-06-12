@@ -21,3 +21,9 @@ to login with a profile, type:
 
 to login with a profile and change the default session duration of 3600 seconds, type:
 `easy-aws-login my-profile 7200`
+
+
+## Deployment
+This project is managed by AWS CodeBuild and the cloudformation template that drives it is found under [templates/deployment-pipeline.yaml](templates/deployment-pipeline.yaml). This is what a visualisation of it looks like:
+
+![](/diagram.png)
