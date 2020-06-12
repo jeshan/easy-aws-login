@@ -19,7 +19,7 @@ to login with a profile, type:
 `easy-aws-login my-profile`
 
 
-to login with a profile and change the default session duration of 3600 seconds, type:
+to login with a profile and change the default session duration of 12 hours (43200 seconds), type:
 `easy-aws-login my-profile 7200`
 
 
