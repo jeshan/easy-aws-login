@@ -27,3 +27,5 @@ to login with a profile and change the default session duration of 12 hours (432
 This project is managed by AWS CodeBuild and the cloudformation template that drives it is found under [templates/deployment-pipeline.yaml](templates/deployment-pipeline.yaml). This is what a visualisation of it looks like:
 
 ![](/diagram.png)
+
+*Image automatically generated with [cfnbuddy](https://www.cfnbuddy.com)*
